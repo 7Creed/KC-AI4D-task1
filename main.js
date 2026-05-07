@@ -2,11 +2,8 @@ require('dotenv').config();
 
 async function callLLM(prompt) {
   const BASE_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-  //   https://openrouter.ai/api/v1/chat/completions
   const apiKey = process.env.OPENROUTER_API_KEY;
   const model = process.env.MODEL_NAME;
-
-  //   console.log(apiKey);
 
   if (!apiKey) {
     throw new Error('OPENROUTER_API_KEY is missing in .env');
@@ -24,6 +21,7 @@ async function callLLM(prompt) {
     },
     body: JSON.stringify({
       model,
+      max_tokens: 500,
       messages: [
         {
           role: 'user',
@@ -41,10 +39,8 @@ async function callLLM(prompt) {
   return data.choices[0].message.content;
 }
 
-// module.exports = { callLLM };
-
 async function main() {
-  //   const prompt = 'What is the capital of France?';
+  // const prompt = 'What is the capital of France?';
   const prompt = process.argv.slice(2).join(' ');
 
   if (!prompt) {
